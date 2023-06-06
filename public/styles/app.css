@@ -1,0 +1,42 @@
+body {
+    min-height: 100vh;
+    display: grid;
+    align-items: center;
+    font-family: Roboto, sans-serif;
+    font-size: 12px;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+input {
+    flex: 1 1 10ch;
+    margin: .5rem;
+}
+
+input[type="url"] {
+    flex: 3 1 30ch;
+}
+
+
+input {
+    border: none;
+    background: hsl(0 0% 93%);
+    border-radius: .25rem;
+    padding: .75rem 1rem;
+}
+
+input[type="submit"] {
+    background: #214286;
+    color: white;
+    box-shadow: 0 .75rem .5rem -.5rem hsl(0 50% 80%);
+}
+
+div.result {
+    height: 20rem;
+    background: red;
+}
+
+
