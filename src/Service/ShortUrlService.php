@@ -23,7 +23,7 @@ class ShortUrlService
             if (!$this->repository->findOneBy(['shortId' => $code])) {
                 return $code;
             }
-            $code = $this->generateRandomCode();
+            $code = $this->generateRandomCode(4);
         }
     }
 }
