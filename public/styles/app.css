@@ -3,7 +3,7 @@ body {
     display: grid;
     align-items: center;
     font-family: Roboto, sans-serif;
-    font-size: 12px;
+    font-size: 1.5dvw;
 }
 
 form {
@@ -34,9 +34,21 @@ input[type="submit"] {
     box-shadow: 0 .75rem .5rem -.5rem hsl(0 50% 80%);
 }
 
-div.result {
+div#short-links-list {
+    overflow-y: auto;
     height: 20rem;
-    background: red;
+    margin-top: 1rem;
+}
+
+div.short-links-list-item {
+    align-items: center;
+    background: #fff;
+    border: 1px solid #214286;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 12px;
 }
 
 

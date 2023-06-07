@@ -3,28 +3,26 @@
 namespace App\Service;
 
 use App\Entity\ShortUrl;
+use App\Helper\RandomStringGenerator;
 use App\Repository\ShortUrlRepository;
 use Symfony\Component\String\ByteString;
 
 readonly class ShortUrlService
 {
-    public function __construct(private ShortUrlRepository $repository)
-    {
-    }
-
-    public function generateRandomCode(int $length): string
-    {
-        return ByteString::fromRandom($length)->toString();
+    public function __construct(
+        private ShortUrlRepository $repository,
+        private RandomStringGenerator $randomString
+    ) {
     }
 
     public function generateCode(string $host, int $length = 4): ?string
     {
-        $code = $this->generateRandomCode($length);
+        $code = $this->randomString->generate($length);
         while (true) {
-            if (!$this->repository->findOneBy(['shortId' => $code, 'host' => $host])) {
+            if (!$this->repository->hasShortId($code, $host)) {
                 return $code;
             }
-            $code = $this->generateRandomCode($length);
+            $code = $this->randomString->generate($length);
         }
     }
 

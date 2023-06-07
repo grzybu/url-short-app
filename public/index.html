@@ -10,15 +10,76 @@
     <h1>
         Short Url App
     </h1>
-    <form>
-        <input type="url" placeholder="Enter URL" id="url">
+    <form id="short-url-form">
+        <input type="url" placeholder="Enter URL" name="long_url">
         <input type="submit" value="Get">
     </form>
-    <div class="result">
+    <div id="short-links-list">
 
     </div>
+
 </div>
 <link href="/styles/app.css" rel="stylesheet"/>
+<script type="application/javascript">
+
+    const form = document.getElementById("short-url-form");
+    form.addEventListener("submit", handleFormSubmit);
+
+    async function handleFormSubmit(event) {
+
+        event.preventDefault();
+
+        const form = event.currentTarget;
+        const url = 'http://localhost:8080/api/short-url';
+
+        async function postFormDataAsJson({url, formData}) {
+            const plainFormData = Object.fromEntries(formData.entries());
+            const formDataJsonString = JSON.stringify(plainFormData);
+
+            const fetchOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: formDataJsonString,
+            };
+
+            const response = await fetch(url, fetchOptions);
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(errorMessage);
+            }
+
+            return response.json();
+        }
+
+        try {
+            const formData = new FormData(form);
+
+            const responseData = await postFormDataAsJson({url, formData});
+            const resultDiv = document.getElementById('short-links-list');
+
+            const item = document.createElement('div');
+            item.className = 'short-links-list-item';
+
+            item.innerHTML = `
+                    <div class="origin-link">Original: ${responseData.longUrl}</div>
+                    <div class="short-link">Short: <a href="${responseData.shortUrl}" title="${responseData.shortUrl}" target="_blank">${responseData.shortUrl}</a></div>
+            `;
+
+
+            resultDiv.insertBefore(item, resultDiv.firstChild);
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
+
+</script>
 
 </body>
 </html>

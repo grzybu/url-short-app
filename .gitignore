@@ -18,3 +18,4 @@ var/cache
 
 .coverage
 .junit
+test-reports
