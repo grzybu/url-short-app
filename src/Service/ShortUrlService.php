@@ -2,10 +2,11 @@
 
 namespace App\Service;
 
+use App\Entity\ShortUrl;
 use App\Repository\ShortUrlRepository;
 use Symfony\Component\String\ByteString;
 
-class ShortUrlService
+readonly class ShortUrlService
 {
     public function __construct(private ShortUrlRepository $repository)
     {
@@ -16,14 +17,28 @@ class ShortUrlService
         return ByteString::fromRandom($length)->toString();
     }
 
-    public function generateCode(): ?string
+    public function generateCode(string $host, int $length = 4): ?string
     {
-        $code = $this->generateRandomCode(4);
+        $code = $this->generateRandomCode($length);
         while (true) {
-            if (!$this->repository->findOneBy(['shortId' => $code])) {
+            if (!$this->repository->findOneBy(['shortId' => $code, 'host' => $host])) {
                 return $code;
             }
-            $code = $this->generateRandomCode(4);
+            $code = $this->generateRandomCode($length);
         }
+    }
+
+    public function createShortUrl(mixed $longUrl, string $host): ?ShortUrl
+    {
+        $shortId = $this->generateCode($host, 4);
+        $shortUrl = (new ShortUrl())
+            ->setLongUrl($longUrl)
+            ->setShortId($shortId)
+            ->setHost($host)
+            ->setShortUrl("{$host}/{$shortId}");
+
+        $this->repository->save($shortUrl, true);
+
+        return $shortUrl;
     }
 }
