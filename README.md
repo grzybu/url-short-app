@@ -22,6 +22,7 @@ It has simple frontend, but can be also used as Rest API to include it in differ
 
 ### Initial setup
 - Run `make init` to setup the project
+- Open `http://localhost:8080/` in your browser
 
 ## URLS within the app
 
