@@ -7,7 +7,7 @@ help: ## This help.
 
 .DEFAULT_GOAL := help
 
-init: build start composer-install run-migrations setup-test-db
+init: build start composer-install run-migrations
 
 build: ## Build containers
 	docker-compose --env-file=.container.env.local down --rmi all --remove-orphans -v
