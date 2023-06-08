@@ -11,7 +11,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.15",
         "nelmio/api-doc-bundle": "^4.11",
-        "stof/doctrine-extensions-bundle": "^1.7",
+        "stof/doctrine-extensions-bundle": "dev-main",
         "symfony/asset": "6.3.*",
         "symfony/console": "6.3.*",
         "symfony/doctrine-bridge": "6.3.*",
@@ -71,9 +71,9 @@
             "@md-check",
             "@phpstan-check"
         ],
-        "test": "phpunit --log-junit .junit/TEST-phpunit-junit.xml --coverage-cobertura=.coverage/COVERAGE-phpunit-cobertura.xml",
-        "test-coverage": "phpunit --colors=always --coverage-html test-reports/coverage",
-        "test-show-coverage": "phpunit --colors=always --coverage-text",
+        "test": "APP_ENV=test phpunit --log-junit .junit/TEST-phpunit-junit.xml --coverage-cobertura=.coverage/COVERAGE-phpunit-cobertura.xml",
+        "test-coverage": "APP_ENV=test phpunit --colors=always --coverage-html test-reports/coverage",
+        "test-show-coverage": "APP_ENV=test phpunit --colors=always --coverage-text",
         "cs-check": "phpcs --no-cache -n",
         "md-check": "phpmd \"src,migrations\" xml phpmd.xml --suffixes php",
         "phpstan-check":  "phpstan analyse --memory-limit 256M -c phpstan.neon",
@@ -89,6 +89,8 @@
         }
     },
     "require-dev": {
+        "dama/doctrine-test-bundle": "^7.2",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phan/phan": "^5.3",
         "phpmd/phpmd": "^2.12",
         "phpstan/phpstan": "^1.8",
@@ -97,6 +99,8 @@
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
         "squizlabs/php_codesniffer": "^3.6",
+        "symfony/browser-kit": "6.3.*",
+        "symfony/css-selector": "6.3.*",
         "symfony/maker-bundle": "^1.48",
         "symfony/phpunit-bridge": "^6.3"
     }

@@ -7,7 +7,7 @@ use App\Helper\RandomStringGenerator;
 use App\Repository\ShortUrlRepository;
 use Symfony\Component\String\ByteString;
 
-readonly class ShortUrlService
+class ShortUrlService
 {
     public function __construct(
         private ShortUrlRepository $repository,

@@ -33,7 +33,7 @@ class ShortUrlController extends AbstractController
         $requestData = $request->toArray();
         $host = $requestData['host'] ?? $request->getSchemeAndHttpHost();
 
-        $longUrl = filter_var($requestData['long_url'], FILTER_VALIDATE_URL);
+        $longUrl = filter_var($requestData['long_url'] ?? null, FILTER_VALIDATE_URL);
 
         if (!$longUrl) {
             return new Response('Bad request', Response::HTTP_BAD_REQUEST);

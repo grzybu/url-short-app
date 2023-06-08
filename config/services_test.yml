@@ -1,0 +1,3 @@
+services:
+  App\Service\ShortUrlService:
+    public: true
