@@ -2,6 +2,8 @@ version: "3.4"
 
 services:
   nginx:
+    env_file: .container.env.local
+    container_name: "${PROJECT_NAME}_nginx"
     image: docker.io/nginxinc/nginx-unprivileged:1.23-alpine
     ports:
       - 127.0.0.1:8080:8080
@@ -11,14 +13,18 @@ services:
     depends_on:
       - php
   php:
+    env_file: .container.env.local
+    container_name: "${PROJECT_NAME}_${DOCKER_PHP_CONTAINER_NAME_SUFFIX}"
     build:
       context: .
       target: symfony_php
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      db-test:
+        condition: service_healthy
     restart: unless-stopped
     volumes:
- #     - ./docker/php/conf.d/symfony.dev.ini:/usr/local/etc/php/conf.d/symfony.ini
       - .:/var/www/html
       - /var/www/vendor
     user: "${UID:-1000}:${GID:-1000}"
@@ -31,18 +37,36 @@ services:
       - 9003
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    env_file: .container.env.local
   db:
+    env_file: .container.env.local
+    container_name: "${PROJECT_NAME}_db"
     image: postgres:13.1
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: app
     volumes:
       - data-volume:/var/lib/postgresql/data/
+      - ~/.cache/composer:/.composer/cache
     logging:
       driver: none
     ports:
       - 5432:5432
-
+    healthcheck:
+      test: "exit 0"
+  db-test:
+    env_file: .container.env.local
+    container_name: "${PROJECT_NAME}_db_test"
+    image: postgres:13.1
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: app
+    tmpfs:
+      - /var/lib/postgresql/data/
+    logging:
+      driver: none
+    ports:
+      - 15432:5432
+    healthcheck:
+      test: "exit 0"
 volumes:
   data-volume:

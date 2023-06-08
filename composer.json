@@ -91,7 +91,6 @@
     "require-dev": {
         "dama/doctrine-test-bundle": "^7.2",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "phan/phan": "^5.3",
         "phpmd/phpmd": "^2.12",
         "phpstan/phpstan": "^1.8",
         "phpstan/phpstan-doctrine": "^1.3",
