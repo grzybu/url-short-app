@@ -27,6 +27,7 @@ services:
     volumes:
       - .:/var/www/html
       - /var/www/vendor
+      - ./docker/php/conf.d/symfony.dev.ini:/usr/local/etc/php/conf.d/symfony.ini
     user: "${UID:-1000}:${GID:-1000}"
     healthcheck:
       interval: 10s

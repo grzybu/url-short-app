@@ -27,6 +27,19 @@ RUN chmod +x /usr/local/bin/docker-entrypoint
 
 USER 1000
 
+# Prod stage
+# ------------------------------------------------------------
+FROM symfony_php as prod
+COPY . .
+COPY ./docker/php/conf.d/symfony.ini /usr/local/etc/php/conf.d/symfony.ini
+
+RUN composer install --prefer-dist --no-progress --no-interaction -o --no-dev --ignore-platform-reqs --classmap-authoritative --no-scripts
+
+RUN php bin/console cache:clear --env=prod
+RUN php bin/console cache:warmup --env=prod
+RUN composer dump-env prod
+
+
 CMD ["/bin/bash", "-c", "php-fpm -F"]
 
 ENTRYPOINT ["docker-entrypoint"]
