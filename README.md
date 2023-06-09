@@ -22,7 +22,7 @@ It has simple frontend, but can be also used as Rest API to include it in differ
 
 ### Initial setup
 - Run `make init` to setup the project
-- Open `http://localhost:8080/` in your browser
+- Open http://localhost:8080/ in your browser
 
 ## URLS within the app
 
@@ -32,3 +32,4 @@ It has simple frontend, but can be also used as Rest API to include it in differ
 
 ## Tests
 - `make test-show-coverage` - runs tests and shows coverage
+- test db uses tmpfs - if needed run `make create-test-db`
